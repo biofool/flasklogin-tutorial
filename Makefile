@@ -41,6 +41,12 @@ install:
 	. .venv/bin/activate
 	$(LOCAL_PYTHON) -m pip install --upgrade pip setuptools wheel
 	$(LOCAL_PYTHON) -m pip install -r requirements.txt
+    # Generate strong secret key at install time
+	set $(echo $RANDOM | md5sum | head -c 40)
+	SECRET_KEY=$1
+	grep -v SECRET_KEY .env>.env.install
+	echo >> .env.install "SECRET_KEY=$SECRET_KEY"
+	mv .env.install .env
 
 
 .PHONY: deploy
