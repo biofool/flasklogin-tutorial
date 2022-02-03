@@ -1,3 +1,4 @@
+sudo apt install certbot -y
 if [ -z "$FW_Key" ]
 then
     # Example using encryption do deploy sensitive files
@@ -10,19 +11,18 @@ else
     mdecrypt -f ./mcrypt.install daanmatch-certs.tgz.nc
     shred -u ./mcrypt.install
 fi
-sudo apt install certbot
 
 cat<<EOM
 # I like to install GH cmnd line for test servers
 curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
-sudo apt update
+sudo apt update -y
 sudo apt install gh -y
 gh auth login
 git clone https://github.com/DaanMatch/FieldWorker
 EOM
 #  Install software
-sudo apt update
+sudo apt update -y
 sudo apt install git python3 python3-pip python3-venv -y
 sudo apt-get install software-properties-common -y
 sudo apt-get install gpg mcrypt -y
